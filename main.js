@@ -10,9 +10,19 @@ const settings = {
 	monospace: false,
 	boxes: false,
 	minecraft: false,
+	redIntensity:2,
+	greenIntensity:2,
+	blueIntensity:2,
+	
+}
+function updateRGBCounts() {
+    document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
+    document.querySelector('#greenCount').innerText = document.getElementById('greenIntensity').value
+    document.querySelector('#blueCount').innerText = document.getElementById('blueIntensity').value
 }
 
 function setUIElement(selector, value) {
+	
 	const elem = document.querySelector(selector);
 	switch(elem.getAttribute("type")) { //should all be <input>
 		case "checkbox":
@@ -26,6 +36,9 @@ function setUIElement(selector, value) {
 }
 
 function initUI() {
+	document.querySelector('#redIntensity').onchange = () => { updateRGBCounts(); r() }
+    document.querySelector('#greenIntensity').onchange = () => { updateRGBCounts(); r() }
+    document.querySelector('#blueIntensity').onchange = () => { updateRGBCounts(); r() }
 	document.body.ondragover = (e) => e.preventDefault();
 	document.body.ondrop = (e) => {
 		e.preventDefault();
@@ -54,7 +67,15 @@ function initUI() {
 	setUIElement('#monospace', settings.monospace).onchange = (e) => {settings.monospace = e.target.checked; r()};
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
-
+	
+	
+	
+	setUIElement('#redIntensity', settings.redIntensity).onchange = (e) => {settings.redIntensity = e.target.checked; r()};
+	setUIElement('#greenIntensity', settings.greenIntensity).onchange = (e) => {settings.greenIntensity = e.target.checked; r()};
+	setUIElement('#blueIntensity', settings.blueIntensity).onchange = (e) => {settings.blueIntensity = e.target.checked; r()};
+	
+	
+	
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);

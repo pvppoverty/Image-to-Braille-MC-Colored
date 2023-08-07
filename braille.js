@@ -33,6 +33,10 @@ function createImageCanvas(src) {
 	});
 }
 
+
+
+
+
 function pixelsToCharacter(pixels_lo_hi) { //expects an array of 8 bools
 	//Codepoint reference - https://www.ssec.wisc.edu/~tomw/java/unicode.html#x2800
 	const shift_values = [0, 1, 2, 6, 3, 4, 5, 7]; //correspond to dots in braille chars compared to the given array
@@ -155,7 +159,7 @@ function canvasToText(canvas) {
 		let minDistance = Infinity;
         let closestColor = null;
         for (const color in mcMaxRgb) {
-            const colorDistance = Math.sqrt(Math.pow(r - mcMaxRgb[color]["rgb"][0], 2) + Math.pow(g - mcMaxRgb[color]["rgb"][1], 2) + Math.pow(b - mcMaxRgb[color]["rgb"][2], 2));
+            const colorDistance = Math.sqrt(Math.pow(r - mcMaxRgb[color]["rgb"][0], document.getElementById('redIntensity').value) + Math.pow(g - mcMaxRgb[color]["rgb"][1], document.getElementById('greenIntensity').value) + Math.pow(b - mcMaxRgb[color]["rgb"][2], document.getElementById('blueIntensity').value));
             if (colorDistance < minDistance) {
                 minDistance = colorDistance;
                 closestColor = color;
