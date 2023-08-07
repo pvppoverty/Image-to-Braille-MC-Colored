@@ -1,3 +1,4 @@
+
 function createImageCanvas(src) {
 	return new Promise((resolve, reject) => {
 		const canvas = document.createElement("CANVAS");
@@ -38,6 +39,7 @@ function pixelsToCharacter(pixels_lo_hi) { //expects an array of 8 bools
 	let codepoint_offset = 0;
 	for(const i in pixels_lo_hi) {
 		codepoint_offset += (+pixels_lo_hi[i]) << shift_values[i];
+		
 	}
 
 	if(codepoint_offset === 0 && settings.monospace === false) { //pixels were all blank
@@ -66,6 +68,8 @@ function toGreyscale(r, g, b) {
 	}
 }
 
+
+
 function canvasToText(canvas) {
 	const ctx = canvas.getContext("2d");
 	const width = canvas.width;
@@ -80,9 +84,9 @@ function canvasToText(canvas) {
 	} else {
 		image_data = new Uint8Array(ctx.getImageData(0,0,width,height).data.buffer);
 	}
-
+	
 	let output = "";
-
+	let clr = "";
 	for(let imgy = 0; imgy < height; imgy += 4) {
 		for(let imgx = 0; imgx < width; imgx += 2) {
 			const braille_info = [0,0,0,0,0,0,0,0];
@@ -92,7 +96,12 @@ function canvasToText(canvas) {
 					const index = (imgx+x + width * (imgy+y)) * 4;
 					const pixel_data = image_data.slice(index, index+4); //ctx.getImageData(imgx+x,imgy+y,1,1).data
 					if(pixel_data[3] >= 128) { //account for alpha
+						
 						const grey = toGreyscale(pixel_data[0], pixel_data[1], pixel_data[2]);
+						
+						
+						rgbToMcColorCode(pixel_data[0],pixel_data[1],pixel_data[2])
+						
 						if(settings.inverted) {
 							if(grey >= 128) braille_info[dot_index] = 1;
 						} else {
@@ -102,10 +111,58 @@ function canvasToText(canvas) {
 					dot_index++;
 				}
 			}
+			if(settings.minecraft == true) {
+			if(settings.boxes == false) {
+			if (pixelsToCharacter(braille_info) === String.fromCharCode(0x2800)) {
+                output += pixelsToCharacter(braille_info);
+            } else {
+                output += clr + pixelsToCharacter(braille_info);
+            }
+		} else {
+			output += clr + String.fromCharCode(0x2588);
+			}
+		} else {
 			output += pixelsToCharacter(braille_info);
 		}
+		
+	}
+		
 		output += "\n";
 	}
 
+	
+	function rgbToMcColorCode(r, g, b) {
+		const mcMaxRgb = {
+			black: { rgb: [0, 0, 0], cc: '&0' },
+			darkBlue: { rgb: [0, 0, 170], cc: '&1' },
+			darkGreen: { rgb: [0, 170, 0], cc: '&2' },
+			darkAqua: { rgb: [0, 170, 170], cc: '&3' },
+			darkRed: { rgb: [170, 0, 0], cc: '&4' },
+			darkPurple: { rgb: [170, 0, 170], cc: '&5' },
+			gold: { rgb: [255, 170, 0], cc: '&6' },
+			gray: { rgb: [170, 170, 170], cc: '&7' },
+			darkGray: { rgb: [85, 85, 85], cc: '&8' },
+			blue: { rgb: [85, 85, 255], cc: '&9' },
+			green: { rgb: [85, 255, 85], cc: '&a' },
+			aqua: { rgb: [85, 255, 255], cc: '&b' },
+			red: { rgb: [255, 85, 85], cc: '&c' },
+			lightPurple: { rgb: [255, 85, 255], cc: '&d' },
+			yellow: { rgb: [255, 255, 85], cc: '&e' },
+			white: { rgb: [255, 255, 255], cc: '&f' }
+		}
+		
+		
+		let minDistance = Infinity;
+        let closestColor = null;
+        for (const color in mcMaxRgb) {
+            const colorDistance = Math.sqrt(Math.pow(r - mcMaxRgb[color]["rgb"][0], 2) + Math.pow(g - mcMaxRgb[color]["rgb"][1], 2) + Math.pow(b - mcMaxRgb[color]["rgb"][2], 2));
+            if (colorDistance < minDistance) {
+                minDistance = colorDistance;
+                closestColor = color;
+            }
+        }
+    
+        return clr = mcMaxRgb[closestColor]["cc"]
+	}
 	return output;
 }

@@ -21,8 +21,8 @@ body {
 	resize: none;
 	flex: 1 1;
 
-	background: white;
-	color: black;
+	background: black;
+	color: white;
 }
 
 #text.dark {
