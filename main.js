@@ -10,15 +10,14 @@ const settings = {
 	monospace: false,
 	boxes: false,
 	minecraft: false,
-	redIntensity:2,
-	greenIntensity:2,
-	blueIntensity:2,
+	
 	
 }
 function updateRGBCounts() {
     document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
     document.querySelector('#greenCount').innerText = document.getElementById('greenIntensity').value
     document.querySelector('#blueCount').innerText = document.getElementById('blueIntensity').value
+	
 }
 
 function setUIElement(selector, value) {
@@ -34,8 +33,12 @@ function setUIElement(selector, value) {
 	}
 	return elem;
 }
+let txlength = 0;
 
 function initUI() {
+	
+
+
 	document.querySelector('#redIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#greenIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#blueIntensity').onchange = () => { updateRGBCounts(); r() }
@@ -70,9 +73,7 @@ function initUI() {
 	
 	
 	
-	setUIElement('#redIntensity', settings.redIntensity).onchange = (e) => {settings.redIntensity = e.target.checked; r()};
-	setUIElement('#greenIntensity', settings.greenIntensity).onchange = (e) => {settings.greenIntensity = e.target.checked; r()};
-	setUIElement('#blueIntensity', settings.blueIntensity).onchange = (e) => {settings.blueIntensity = e.target.checked; r()};
+	
 	
 	
 	
@@ -84,6 +85,10 @@ function initUI() {
 	setUIElement('#width', settings.width).onchange = (e) => {
 		settings.width = e.target.value;
 		loadNewImage(settings.last_source);
+
+		
+			
+		
 	};
 
 	document.querySelector('#clipboard').onclick = (e) => {
@@ -108,6 +113,7 @@ async function parseCanvas(canvas) {
 	const text = canvasToText(canvas);
 	document.querySelector('#text').value = text;
 	document.querySelector('#charcount').innerText = text.length;
+	txlength = text.length;
 }
 
 window.onload = () => {
