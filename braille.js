@@ -15,6 +15,7 @@ function createImageCanvas(src) {
 			//nearest multiple
 			canvas.width = width - (width % 2);
 			canvas.height = height - (height % 4);
+		
 
 			ctx = canvas.getContext("2d");
 			ctx.fillStyle = "#FFFFFF"; //get rid of alpha
@@ -123,7 +124,7 @@ function canvasToText(canvas) {
                 output += clr + pixelsToCharacter(braille_info);
             }
 		} else {
-			output += clr + String.fromCharCode(0x2588);
+			output += clr + settings.char; //circle 0x25CF block 0x2588 X 0x2573
 			}
 		} else {
 			output += pixelsToCharacter(braille_info);

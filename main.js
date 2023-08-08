@@ -10,7 +10,7 @@ const settings = {
 	monospace: false,
 	boxes: false,
 	minecraft: false,
-	
+	char: "",
 	
 }
 function updateRGBCounts() {
@@ -18,6 +18,17 @@ function updateRGBCounts() {
     document.querySelector('#greenCount').innerText = document.getElementById('greenIntensity').value
     document.querySelector('#blueCount').innerText = document.getElementById('blueIntensity').value
 	
+}
+async function pasted(){
+try{
+	
+		const text = await navigator.clipboard.readText();
+		
+	
+settings.char = text
+document.getElementById('char').value = text
+loadNewImage(settings.last_source);
+	} catch(error){console.log(error)}
 }
 
 function setUIElement(selector, value) {
@@ -33,11 +44,11 @@ function setUIElement(selector, value) {
 	}
 	return elem;
 }
-let txlength = 0;
+
 
 function initUI() {
 	
-
+	document.querySelector('#char').oninput = () => {settings.char = document.getElementById('char').value;r()};
 
 	document.querySelector('#redIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#greenIntensity').onchange = () => { updateRGBCounts(); r() }
@@ -72,28 +83,81 @@ function initUI() {
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
 	
 	
-	
-	
-	
-	
-	
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
 	};
 
 	setUIElement('#width', settings.width).onchange = (e) => {
-		settings.width = e.target.value;
+		settings.width = parseInt(e.target.value);
 		loadNewImage(settings.last_source);
 
 		
-			
-		
 	};
+	//autoscales the image... or tries to
+	var canrun = true;
+	document.querySelector('#autoScale').onclick = (e) => {
+		if(canrun == true) {
+			canrun = false
+		if(document.querySelector('#charcount').innerText<4300 || document.querySelector('#charcount').innerText>=4500){
+		for(i=0;i<150;i++){
+			if(document.querySelector('#charcount').innerText>=10000){
+				settings.width = 30
+				document.getElementById('width').value = 30
+				loadNewImage(settings.last_source);
+				break;
+			}
+			if(settings.width <= 2){
+				settings.width = 10
+				document.getElementById('width').value = 30
+				loadNewImage(settings.last_source);
+				break;
+			}
+			setTimeout(()=>{
+				
+			if(document.querySelector('#charcount').innerText<4300){
+				settings.width += 1;
+				document.getElementById('width').value = settings.width
+				loadNewImage(settings.last_source);
+
+			} else if (document.querySelector('#charcount').innerText>=4500){
+				settings.width -= 1;
+				document.getElementById('width').value = settings.width
+				loadNewImage(settings.last_source);
+
+			}
+		},1500)
+		
+	}
+
+		}
+		canrun = true
+	}
+
+
+	}
+	
 
 	document.querySelector('#clipboard').onclick = (e) => {
 		 document.querySelector('#text').select();
 		 document.execCommand("copy");
+		 
+	}
+	//resets draggy things on the side
+	document.querySelector('#rReset').onclick = (e) => {
+		document.querySelector('#redCount').innerText = 2
+		document.getElementById('redIntensity').value = 2
+		loadNewImage(settings.last_source);
+   }
+    document.querySelector('#gReset').onclick = (e) => {
+		document.querySelector('#greenCount').innerText = 2
+		document.getElementById('greenIntensity').value = 2
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#bReset').onclick = (e) => {
+		document.querySelector('#blueCount').innerText = 2
+		document.getElementById('blueIntensity').value = 2
+		loadNewImage(settings.last_source);
 	}
 }
 
@@ -113,10 +177,12 @@ async function parseCanvas(canvas) {
 	const text = canvasToText(canvas);
 	document.querySelector('#text').value = text;
 	document.querySelector('#charcount').innerText = text.length;
-	txlength = text.length;
+	
 }
 
 window.onload = () => {
 	initUI();
+	settings.char = "█"
+	document.getElementById('char').value = "█"
 	loadNewImage("select.png");
 }
