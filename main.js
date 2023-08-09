@@ -13,6 +13,7 @@ const settings = {
 	char: "",
 	autocopy: false,
 	canrun: true,
+	intensity_mode: "pow",
 	
 }
 function updateRGBCounts() {
@@ -90,6 +91,11 @@ function initUI() {
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
+	};
+	document.querySelector('#intensitymode').onchange = (e) => {
+		settings.intensity_mode = e.target.value;
+		console.log(settings.intensity_mode)
+		loadNewImage(settings.last_source);
 	};
 
 	setUIElement('#width', settings.width).onchange = (e) => {
@@ -176,7 +182,7 @@ async function loadNewImage(src) {
 	//console.log(URL. createObjectURL(settings.last_source))
 	const canvas = await createImageCanvas(src);
 	settings.last_canvas = canvas;
-	console.log(settings.last_canvas)
+	//console.log(settings.last_canvas)
 	settings.last_dithering = null;
 	await parseCanvas(canvas);
 

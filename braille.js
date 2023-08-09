@@ -74,8 +74,63 @@ function toGreyscale(r, g, b) {
 }
 
 
-
+var intensitymode;
 function canvasToText(canvas) {
+	
+	switch(settings.intensity_mode) {
+		case "pow":
+		intensitymode = Math.pow
+		break;
+		case "sqrt":  
+		//intensitymode = Math.sqrt
+		intensitymode = Math.sqrt  //works: Math.random Math.cbrt Math.imul Math.expm1 Math.exp Math.atan2 Math.atan Math.log1p  Math.clz32 Math.sin
+
+
+
+		break;
+		case "floor": 
+			intensitymode = Math.floor
+			break;
+		case "max": 
+			intensitymode = Math.max
+			break;
+		case "min": 
+			intensitymode = Math.min
+			break;
+		case "random":
+			intensitymode =Math.random
+			break;
+		case "cbrt":
+			intensitymode =Math.cbrt
+			break;
+		case "imul":
+			intensitymode =Math.imul
+			break;
+		case "expm1":
+			intensitymode =Math.expm1
+			break;
+		case "exp":
+			intensitymode =Math.exp
+			break;
+		case "atan2":
+			intensitymode =Math.atan2
+			break;
+		case "atan":
+			intensitymode =Math.atan
+			break;
+		case "log1p":
+			intensitymode =Math.log1p
+			break;
+		case "clz32":
+			intensitymode =Math.clz32
+			break;
+		case "sin":
+			intensitymode =Math.sin
+			break;
+		default: console.error("No Selection")
+		break;
+	}
+
 	const ctx = canvas.getContext("2d");
 	const width = canvas.width;
 	const height = canvas.height;
@@ -172,11 +227,12 @@ function canvasToText(canvas) {
 			white: { rgb: [255, 255, 255], cc: '&f' }
 		}
 		
-		
+
+
 		let minDistance = Infinity;
         let closestColor = null;
         for (const color in mcMaxRgb) {
-            const colorDistance = Math.sqrt(Math.pow(r - mcMaxRgb[color]["rgb"][0], document.getElementById('redIntensity').value) + Math.pow(g - mcMaxRgb[color]["rgb"][1], document.getElementById('greenIntensity').value) + Math.pow(b - mcMaxRgb[color]["rgb"][2], document.getElementById('blueIntensity').value));
+            const colorDistance = Math.sqrt(intensitymode(r - mcMaxRgb[color]["rgb"][0], document.getElementById('redIntensity').value) + intensitymode(g - mcMaxRgb[color]["rgb"][1], document.getElementById('greenIntensity').value) + intensitymode(b - mcMaxRgb[color]["rgb"][2], document.getElementById('blueIntensity').value));
             if (colorDistance < minDistance) {
                 minDistance = colorDistance;
                 closestColor = color;
