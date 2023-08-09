@@ -169,5 +169,7 @@ function canvasToText(canvas) {
     
         return clr = mcMaxRgb[closestColor]["cc"]
 	}
+
 	return output;
+	
 }

@@ -11,7 +11,8 @@ const settings = {
 	boxes: false,
 	minecraft: false,
 	char: "",
-	
+	autocopy: false,
+	canrun: true,
 }
 function updateRGBCounts() {
     document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
@@ -48,6 +49,7 @@ function setUIElement(selector, value) {
 
 function initUI() {
 	
+
 	document.querySelector('#char').oninput = () => {settings.char = document.getElementById('char').value;r()};
 
 	document.querySelector('#redIntensity').onchange = () => { updateRGBCounts(); r() }
@@ -81,7 +83,7 @@ function initUI() {
 	setUIElement('#monospace', settings.monospace).onchange = (e) => {settings.monospace = e.target.checked; r()};
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
-	
+	setUIElement('#autocopy', settings.autocopy).onchange = (e) => {settings.autocopy = e.target.checked; r()};
 	
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
@@ -95,10 +97,10 @@ function initUI() {
 		
 	};
 	//autoscales the image... or tries to
-	var canrun = true;
+	
 	document.querySelector('#autoScale').onclick = (e) => {
-		if(canrun == true) {
-			canrun = false
+		if(settings.canrun == true) {
+			settings.canrun = false
 		if(document.querySelector('#charcount').innerText<4300 || document.querySelector('#charcount').innerText>=4500){
 		for(i=0;i<150;i++){
 			if(document.querySelector('#charcount').innerText>=10000){
@@ -131,7 +133,7 @@ function initUI() {
 	}
 
 		}
-		canrun = true
+		settings.canrun = true
 	}
 
 
@@ -162,6 +164,7 @@ function initUI() {
 }
 
 async function loadNewImage(src) {
+	
 	if(src === undefined) return;
 
 	if(settings.last_source && settings.last_source !== src) URL.revokeObjectURL(settings.last_source);
@@ -171,13 +174,19 @@ async function loadNewImage(src) {
 	settings.last_canvas = canvas;
 	settings.last_dithering = null;
 	await parseCanvas(canvas);
+
 }
 
 async function parseCanvas(canvas) {
 	const text = canvasToText(canvas);
 	document.querySelector('#text').value = text;
 	document.querySelector('#charcount').innerText = text.length;
-	
+	if(settings.autocopy==true){
+		if(settings.canrun == true){
+	document.querySelector('#text').select();
+	document.execCommand("copy");
+		}
+	}
 }
 
 window.onload = () => {
