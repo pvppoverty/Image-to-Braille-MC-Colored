@@ -92,7 +92,9 @@ function canvasToText(canvas) {
 	
 	let output = "";
 	let clr = "";
+	
 	for(let imgy = 0; imgy < height; imgy += 4) {
+		let oldclr = "";
 		for(let imgx = 0; imgx < width; imgx += 2) {
 			const braille_info = [0,0,0,0,0,0,0,0];
 			let dot_index = 0;
@@ -116,20 +118,34 @@ function canvasToText(canvas) {
 					dot_index++;
 				}
 			}
+			
+
 			if(settings.minecraft == true) {
 			if(settings.boxes == false) {
 			if (pixelsToCharacter(braille_info) === String.fromCharCode(0x2800)) {
+				
                 output += pixelsToCharacter(braille_info);
+
             } else {
+				if(oldclr !== clr) {
                 output += clr + pixelsToCharacter(braille_info);
+				} else {
+					output +=pixelsToCharacter(braille_info);
+				}
             }
 		} else {
+			if(oldclr !== clr){
 			output += clr + settings.char; //circle 0x25CF block 0x2588 X 0x2573
-			}
+			} else {
+				output += settings.char; //circle 0x25CF block 0x2588 X 0x2573
+			}	
+		}
+
+
 		} else {
 			output += pixelsToCharacter(braille_info);
 		}
-		
+		oldclr = clr
 	}
 		
 		output += "\n";
@@ -169,7 +185,7 @@ function canvasToText(canvas) {
     
         return clr = mcMaxRgb[closestColor]["cc"]
 	}
-
+	
 	return output;
 	
 }

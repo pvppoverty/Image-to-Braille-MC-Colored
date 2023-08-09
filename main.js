@@ -13,6 +13,7 @@ const settings = {
 	char: "",
 	autocopy: false,
 	canrun: true,
+	
 }
 function updateRGBCounts() {
     document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
@@ -74,8 +75,10 @@ function initUI() {
 
 	setUIElement('#darktheme', settings.inverted).onchange = (e) => {
 		const element = document.querySelector('#text');
-		if(e.target.checked) element.classList.add("dark");
-		else element.classList.remove("dark");
+		if(e.target.checked){ element.classList.add("dark");}
+		else {element.classList.remove("dark");
+		
+	}
 	};
 
 	setUIElement('#inverted', settings.inverted).onchange = (e) => {settings.inverted = e.target.checked; r()};
@@ -84,7 +87,6 @@ function initUI() {
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
 	setUIElement('#autocopy', settings.autocopy).onchange = (e) => {settings.autocopy = e.target.checked; r()};
-	
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
@@ -98,6 +100,7 @@ function initUI() {
 	};
 	//autoscales the image... or tries to
 	
+
 	document.querySelector('#autoScale').onclick = (e) => {
 		if(settings.canrun == true) {
 			settings.canrun = false
@@ -170,8 +173,10 @@ async function loadNewImage(src) {
 	if(settings.last_source && settings.last_source !== src) URL.revokeObjectURL(settings.last_source);
 
 	settings.last_source = src;
+	//console.log(URL. createObjectURL(settings.last_source))
 	const canvas = await createImageCanvas(src);
 	settings.last_canvas = canvas;
+	console.log(settings.last_canvas)
 	settings.last_dithering = null;
 	await parseCanvas(canvas);
 
