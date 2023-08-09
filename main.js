@@ -121,7 +121,7 @@ function initUI() {
 	document.querySelector('#autoScale').onclick = (e) => {
 		if(settings.canrun == true) {
 			settings.canrun = false
-		if(document.querySelector('#charcount').innerText<4300 || document.querySelector('#charcount').innerText>=4500){
+		if(document.querySelector('#charcount').innerText<4200 || document.querySelector('#charcount').innerText>=4500){
 		for(i=0;i<150;i++){
 			if(document.querySelector('#charcount').innerText>=10000){
 				settings.width = 30
@@ -137,7 +137,7 @@ function initUI() {
 			}
 			setTimeout(()=>{
 				
-			if(document.querySelector('#charcount').innerText<4300){
+			if(document.querySelector('#charcount').innerText<4200){
 				settings.width += 1;
 				document.getElementById('width').value = settings.width
 				loadNewImage(settings.last_source);
