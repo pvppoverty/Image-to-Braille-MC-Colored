@@ -5,6 +5,10 @@ function createImageCanvas(src) {
 		const image = new Image();
 
 		image.onload = () => {
+			//var scale = Math.min((200/img.width),(200/img.height));
+			//image.width = image.width/50;
+			//image.height = image.height/50;
+
 			let width = image.width;
 			let height = image.height;
 			if(image.width != (settings.width * 2)) {
@@ -34,8 +38,91 @@ function createImageCanvas(src) {
 	});
 }
 
+// https://stackoverflow.com/questions/13806483/increase-or-decrease-color-saturation rgb/hsv hsv/rgb functions by hoffmann https://stackoverflow.com/users/3485/hoffmann
+RGBtoHSV= function(color) {
+	var r,g,b,h,s,v;
+	r= color[0];
+	g= color[1];
+	b= color[2];
+	min = Math.min( r, g, b );
+	max = Math.max( r, g, b );
 
 
+	v = max;
+	delta = max - min;
+	if( max != 0 )
+		s = delta / max;        // s
+	else {
+		// r = g = b = 0        // s = 0, v is undefined
+		s = 0;
+		h = -1;
+		return [h, s, undefined];
+	}
+	if( r === max )
+		h = ( g - b ) / delta;      // between yellow & magenta
+	else if( g === max )
+		h = 2 + ( b - r ) / delta;  // between cyan & yellow
+	else
+		h = 4 + ( r - g ) / delta;  // between magenta & cyan
+	h *= 60;                // degrees
+	if( h < 0 )
+		h += 360;
+	if ( isNaN(h) )
+		h = 0;
+	return [h,s,v];
+};
+// https://stackoverflow.com/questions/13806483/increase-or-decrease-color-saturation rgb/hsv hsv/rgb functions by hoffmann https://stackoverflow.com/users/3485/hoffmann
+HSVtoRGB= function(color) {
+	var i;
+	var h,s,v,r,g,b;
+	h= color[0];
+	s= color[1];
+	v= color[2];
+	if(s === 0 ) {
+		// achromatic (grey)
+		r = g = b = v;
+		return [r,g,b];
+	}
+	h /= 60;            // sector 0 to 5
+	i = Math.floor( h );
+	f = h - i;          // factorial part of h
+	p = v * ( 1 - s );
+	q = v * ( 1 - s * f );
+	t = v * ( 1 - s * ( 1 - f ) );
+	switch( i ) {
+		case 0:
+			r = v;
+			g = t;
+			b = p;
+			break;
+		case 1:
+			r = q;
+			g = v;
+			b = p;
+			break;
+		case 2:
+			r = p;
+			g = v;
+			b = t;
+			break;
+		case 3:
+			r = p;
+			g = q;
+			b = v;
+			break;
+		case 4:
+			r = t;
+			g = p;
+			b = v;
+			break;
+		default:        // case 5:
+			r = v;
+			g = p;
+			b = q;
+			break;
+	}
+	return [r,g,b];
+}
 
 
 function pixelsToCharacter(pixels_lo_hi) { //expects an array of 8 bools
@@ -158,12 +245,17 @@ function canvasToText(canvas) {
 					const index = (imgx+x + width * (imgy+y)) * 4;
 					const pixel_data = image_data.slice(index, index+4); //ctx.getImageData(imgx+x,imgy+y,1,1).data
 					if(pixel_data[3] >= 128) { //account for alpha
-						
+						let sat = document.getElementById('saturation').value
 						const grey = toGreyscale(pixel_data[0], pixel_data[1], pixel_data[2]);
-						
-						
-						rgbToMcColorCode(pixel_data[0],pixel_data[1],pixel_data[2])
-						
+						if(settings.minecraft ==true){
+							try{
+						let temppix = RGBtoHSV(pixel_data)
+						let temppix2 = HSVtoRGB([temppix[0], temppix[1] * sat, temppix[2]])
+						rgbToMcColorCode(temppix2[0], temppix2[1], temppix2[2])
+							} catch(error){
+								console.log(error)
+							}
+						}
 						if(settings.inverted) {
 							if(grey >= 128) braille_info[dot_index] = 1;
 						} else {
@@ -227,7 +319,7 @@ function canvasToText(canvas) {
 			white: { rgb: [255, 255, 255], cc: '&f' }
 		}
 		
-
+		
 
 		let minDistance = Infinity;
         let closestColor = null;

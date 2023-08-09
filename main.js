@@ -14,13 +14,13 @@ const settings = {
 	autocopy: false,
 	canrun: true,
 	intensity_mode: "pow",
-	
+	satt: 1,
 }
 function updateRGBCounts() {
     document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
     document.querySelector('#greenCount').innerText = document.getElementById('greenIntensity').value
     document.querySelector('#blueCount').innerText = document.getElementById('blueIntensity').value
-	
+	document.querySelector('#saturationCount').innerText = document.getElementById('saturation').value
 }
 async function pasted(){
 try{
@@ -57,6 +57,7 @@ function initUI() {
 	document.querySelector('#redIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#greenIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#blueIntensity').onchange = () => { updateRGBCounts(); r() }
+	document.querySelector('#saturation').onchange = () => { updateRGBCounts(); r() }
 	document.body.ondragover = (e) => e.preventDefault();
 	document.body.ondrop = (e) => {
 		e.preventDefault();
@@ -104,6 +105,16 @@ function initUI() {
 
 		
 	};
+
+	setUIElement('#satt', settings.satt).onchange = (e) => {
+		settings.satt = e.target.value
+		document.getElementById('saturation').value = settings.satt
+		document.querySelector('#saturationCount').innerText = settings.satt
+		console.log(settings.satt)
+		loadNewImage(settings.last_source);
+
+		
+	};
 	//autoscales the image... or tries to
 	
 
@@ -119,7 +130,7 @@ function initUI() {
 				break;
 			}
 			if(settings.width <= 2){
-				settings.width = 10
+				settings.width = 30
 				document.getElementById('width').value = 30
 				loadNewImage(settings.last_source);
 				break;
@@ -168,6 +179,13 @@ function initUI() {
 	document.querySelector('#bReset').onclick = (e) => {
 		document.querySelector('#blueCount').innerText = 2
 		document.getElementById('blueIntensity').value = 2
+		loadNewImage(settings.last_source);
+	}
+
+	document.querySelector('#sReset').onclick = (e) => {
+		document.getElementById('satt').value = 1
+		document.querySelector('#saturationCount').innerText = 1
+		document.getElementById('saturation').value = 1
 		loadNewImage(settings.last_source);
 	}
 }
