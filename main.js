@@ -15,12 +15,14 @@ const settings = {
 	canrun: true,
 	intensity_mode: "pow",
 	satt: 1,
+	
+	
 }
 function updateRGBCounts() {
-    document.querySelector('#redCount').innerText = document.getElementById('redIntensity').value
-    document.querySelector('#greenCount').innerText = document.getElementById('greenIntensity').value
-    document.querySelector('#blueCount').innerText = document.getElementById('blueIntensity').value
-	document.querySelector('#saturationCount').innerText = document.getElementById('saturation').value
+    document.getElementById('rint').value = document.getElementById('redIntensity').value
+    document.getElementById('gint').value = document.getElementById('greenIntensity').value
+    document.getElementById('bint').value = document.getElementById('blueIntensity').value
+	document.getElementById('satt').value = document.getElementById('saturation').value
 }
 async function pasted(){
 try{
@@ -31,7 +33,7 @@ try{
 settings.char = text
 document.getElementById('char').value = text
 loadNewImage(settings.last_source);
-	} catch(error){console.log(error)}
+	} catch(error){}
 }
 
 function setUIElement(selector, value) {
@@ -48,6 +50,31 @@ function setUIElement(selector, value) {
 	return elem;
 }
 
+
+let asCount = 0
+
+function autoScale() {
+    if (asCount >= 150) { asCount = 0; return console.error('failed'); }
+    asCount++
+    if (document.querySelector('#charcount').innerText <= 4250) {
+        document.getElementById('width').value++
+        settings.width++
+        loadNewImage(settings.last_source);
+    } else if (document.querySelector('#charcount').innerText >= 4450) {
+        document.getElementById('width').value--
+        settings.width--
+        loadNewImage(settings.last_source);
+    } else {
+		
+        asCount = 0
+        settings.canrun = true
+		loadNewImage(settings.last_source);
+        return
+    }
+    setTimeout(() => {
+        autoScale()
+    }, 1);
+}
 
 function initUI() {
 	
@@ -95,7 +122,7 @@ function initUI() {
 	};
 	document.querySelector('#intensitymode').onchange = (e) => {
 		settings.intensity_mode = e.target.value;
-		console.log(settings.intensity_mode)
+		
 		loadNewImage(settings.last_source);
 	};
 
@@ -109,55 +136,38 @@ function initUI() {
 	setUIElement('#satt', settings.satt).onchange = (e) => {
 		settings.satt = e.target.value
 		document.getElementById('saturation').value = settings.satt
-		document.querySelector('#saturationCount').innerText = settings.satt
-		console.log(settings.satt)
 		loadNewImage(settings.last_source);
-
+	};
+	setUIElement('#rint').onchange = (e) => {
 		
+		document.getElementById('redIntensity').value = document.getElementById('rint').value
+		loadNewImage(settings.last_source);
+	};
+	setUIElement('#gint').onchange = (e) => {
+		
+		document.getElementById('greenIntensity').value = document.getElementById('gint').value
+		loadNewImage(settings.last_source);
+	};
+	setUIElement('#bint').onchange = (e) => {
+		
+		document.getElementById('blueIntensity').value = document.getElementById('bint').value
+		loadNewImage(settings.last_source);
 	};
 	//autoscales the image... or tries to
 	
 
+	
 	document.querySelector('#autoScale').onclick = (e) => {
-		if(settings.canrun == true) {
-			settings.canrun = false
-		if(document.querySelector('#charcount').innerText<4200 || document.querySelector('#charcount').innerText>=4500){
-		for(i=0;i<150;i++){
-			if(document.querySelector('#charcount').innerText>=10000){
-				settings.width = 30
-				document.getElementById('width').value = 30
-				loadNewImage(settings.last_source);
-				break;
-			}
-			if(settings.width <= 2){
-				settings.width = 30
-				document.getElementById('width').value = 30
-				loadNewImage(settings.last_source);
-				break;
-			}
-			setTimeout(()=>{
-				
-			if(document.querySelector('#charcount').innerText<4200){
-				settings.width += 1;
-				document.getElementById('width').value = settings.width
-				loadNewImage(settings.last_source);
-
-			} else if (document.querySelector('#charcount').innerText>=4500){
-				settings.width -= 1;
-				document.getElementById('width').value = settings.width
-				loadNewImage(settings.last_source);
-
-			}
-		},1500)
-		
-	}
-
+		if (!settings.canrun) return console.error('fail: canrun is not true.')
+		settings.canrun = false
+		if (document.querySelector('#charcount').innerText <= 4200 || document.querySelector('#charcount').innerText >= 4500) {
+			// base to estimate
+			settings.width = 20
+			document.getElementById('width').value = 20
+			loadNewImage(settings.last_source);
+			autoScale()
+		} 
 		}
-		settings.canrun = true
-	}
-
-
-	}
 	
 
 	document.querySelector('#clipboard').onclick = (e) => {
@@ -167,24 +177,24 @@ function initUI() {
 	}
 	//resets draggy things on the side
 	document.querySelector('#rReset').onclick = (e) => {
-		document.querySelector('#redCount').innerText = 2
+		document.getElementById('rint').value = 2
 		document.getElementById('redIntensity').value = 2
 		loadNewImage(settings.last_source);
    }
     document.querySelector('#gReset').onclick = (e) => {
-		document.querySelector('#greenCount').innerText = 2
+		document.getElementById('gint').value = 2
 		document.getElementById('greenIntensity').value = 2
 		loadNewImage(settings.last_source);
 	}
 	document.querySelector('#bReset').onclick = (e) => {
-		document.querySelector('#blueCount').innerText = 2
+		document.getElementById('bint').value = 2
 		document.getElementById('blueIntensity').value = 2
 		loadNewImage(settings.last_source);
 	}
 
 	document.querySelector('#sReset').onclick = (e) => {
 		document.getElementById('satt').value = 1
-		document.querySelector('#saturationCount').innerText = 1
+		
 		document.getElementById('saturation').value = 1
 		loadNewImage(settings.last_source);
 	}
@@ -209,17 +219,20 @@ async function loadNewImage(src) {
 async function parseCanvas(canvas) {
 	const text = canvasToText(canvas);
 	document.querySelector('#text').value = text;
+	settings.txt = text;
 	document.querySelector('#charcount').innerText = text.length;
 	if(settings.autocopy==true){
 		if(settings.canrun == true){
 	document.querySelector('#text').select();
 	document.execCommand("copy");
+	
 		}
 	}
 }
 
 window.onload = () => {
 	initUI();
+
 	settings.char = "█"
 	document.getElementById('char').value = "█"
 	loadNewImage("select.png");

@@ -19,7 +19,7 @@ function createImageCanvas(src) {
 			//nearest multiple
 			canvas.width = width - (width % 2);
 			canvas.height = height - (height % 4);
-		
+			
 
 			ctx = canvas.getContext("2d");
 			ctx.fillStyle = "#FFFFFF"; //get rid of alpha
@@ -31,12 +31,26 @@ function createImageCanvas(src) {
 			ctx.imageSmoothingEnabled = false;
 
 			ctx.drawImage(image, 0,0, canvas.width,canvas.height);
+			//console.log(canvas.height)
+			//console.log(canvas.width)
+			//console.log(widthcalc(1449,canvas.height,width))
+			
 			resolve(canvas);
 		}
 
 		image.src = src;
 	});
 }
+
+
+
+//function widthcalc(charcount,height,width){
+//const mult = 7.8730158730158730158730158730159
+//var newWidth = (((charcount*mult)/height)+ (width % 2))/2
+
+//return Math.floor(newWidth);
+//}
+
 
 // https://stackoverflow.com/questions/13806483/increase-or-decrease-color-saturation rgb/hsv hsv/rgb functions by hoffmann https://stackoverflow.com/users/3485/hoffmann
 RGBtoHSV= function(color) {
@@ -253,7 +267,7 @@ function canvasToText(canvas) {
 						let temppix2 = HSVtoRGB([temppix[0], temppix[1] * sat, temppix[2]])
 						rgbToMcColorCode(temppix2[0], temppix2[1], temppix2[2])
 							} catch(error){
-								console.log(error)
+								
 							}
 						}
 						if(settings.inverted) {
