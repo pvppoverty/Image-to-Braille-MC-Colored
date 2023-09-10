@@ -271,9 +271,9 @@ function canvasToText(canvas) {
 							}
 						}
 						if(settings.inverted) {
-							if(grey >= 128) braille_info[dot_index] = 1;
+							if(grey >= document.getElementById('threshold').value) braille_info[dot_index] = 1;
 						} else {
-							if(grey <= 128) braille_info[dot_index] = 1;
+							if(grey <= document.getElementById('threshold').value) braille_info[dot_index] = 1;
 						}
 					}
 					dot_index++;

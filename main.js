@@ -17,12 +17,14 @@ const settings = {
 	satt: 1,
 	preview: false,
 	previewon: false,
+	thre: 128,
 }
 function updateRGBCounts() {
     document.getElementById('rint').value = document.getElementById('redIntensity').value
     document.getElementById('gint').value = document.getElementById('greenIntensity').value
     document.getElementById('bint').value = document.getElementById('blueIntensity').value
 	document.getElementById('satt').value = document.getElementById('saturation').value
+	document.getElementById('thresh').value = document.getElementById('threshold').value
 }
 async function pasted(){
 try{
@@ -85,6 +87,7 @@ function initUI() {
     document.querySelector('#greenIntensity').onchange = () => { updateRGBCounts(); r() }
     document.querySelector('#blueIntensity').onchange = () => { updateRGBCounts(); r() }
 	document.querySelector('#saturation').onchange = () => { updateRGBCounts(); r() }
+	document.querySelector('#threshold').onchange = () => { updateRGBCounts(); r() }
 	document.body.ondragover = (e) => e.preventDefault();
 	document.body.ondrop = (e) => {
 		e.preventDefault();
@@ -133,7 +136,11 @@ function initUI() {
 
 		
 	};
-
+	setUIElement('#thresh', settings.thre).onchange = (e) => {
+		settings.thre = e.target.value
+		document.getElementById('threshold').value = settings.thre
+		loadNewImage(settings.last_source);
+	};
 	setUIElement('#satt', settings.satt).onchange = (e) => {
 		settings.satt = e.target.value
 		document.getElementById('saturation').value = settings.satt
@@ -200,6 +207,12 @@ function initUI() {
 		document.getElementById('satt').value = 1
 		
 		document.getElementById('saturation').value = 1
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#tReset').onclick = (e) => {
+		document.getElementById('thresh').value = 128
+		
+		document.getElementById('threshold').value = 128
 		loadNewImage(settings.last_source);
 	}
 }
