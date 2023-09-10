@@ -215,7 +215,33 @@ function initUI() {
 		document.getElementById('threshold').value = 128
 		loadNewImage(settings.last_source);
 	}
+	document.querySelector('#tAnim').onclick = (e) => {
+		anim();
+	}
 }
+var animrun = true
+async function anim(){
+	if(animrun == true){
+		animrun = false
+	document.getElementById('thresh').value = -1
+	document.getElementById('threshold').value = -1
+	
+	
+	for(i=0; i<=260; i++){
+		
+	document.getElementById('thresh').value++;
+	document.getElementById('threshold').value++;
+	loadNewImage(settings.last_source);
+	await this.timeout(50)
+	}
+	animrun = true
+} 
+
+	}
+	function timeout(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms))
+	}
+
 
 async function loadNewImage(src) {
 
