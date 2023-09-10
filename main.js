@@ -18,8 +18,6 @@ const settings = {
 	preview: false,
 	previewon: false,
 	thre: 128,
-	animrun:true,
-	delay:50,
 }
 function updateRGBCounts() {
     document.getElementById('rint').value = document.getElementById('redIntensity').value
@@ -218,30 +216,29 @@ function initUI() {
 		loadNewImage(settings.last_source);
 	}
 	document.querySelector('#tAnim').onclick = (e) => {
-		
 		anim();
-		document.getElementById('speed').innerText = settings.delay
 	}
 }
-
+var animrun = true
+var breaker = false
 async function anim(){
-	if(settings.animrun == true){
-		settings.animrun = false
+	if(animrun == true){
+		breaker = false
+		animrun = false
 	document.getElementById('thresh').value = -1
 	document.getElementById('threshold').value = -1
 	
 	
 	for(i=0; i<=260; i++){
-		
+		if(breaker == true){break;}
 	document.getElementById('thresh').value++;
 	document.getElementById('threshold').value++;
 	loadNewImage(settings.last_source);
-	await this.timeout(settings.delay)
+	await this.timeout(50)
 	}
-	settings.animrun = true
-	settings.delay = 50
+	animrun = true
 } else {
-	settings.delay -= 5;
+	breaker = true
 }
 
 	}
