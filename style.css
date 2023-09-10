@@ -10,7 +10,20 @@ body {
 	display: flex;
 	flex-direction: row;
 }
+#output {
+	display: block;
+	white-space: pre;
+	outline: none;
+	min-width: 0px;
+	padding: 0px;
+	margin: 0px;
 
+
+
+	
+	font-size: x-small;
+
+}
 #text {
 	display: block;
 	white-space: pre;

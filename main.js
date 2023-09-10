@@ -5,7 +5,7 @@ const settings = {
 
 	width: 62,
 	greyscale_mode: "luminance",
-	inverted: false,
+	inverted: true,
 	dithering: false,
 	monospace: false,
 	boxes: false,
@@ -15,8 +15,8 @@ const settings = {
 	canrun: true,
 	intensity_mode: "pow",
 	satt: 1,
-	
-	
+	preview: false,
+	previewon: false,
 }
 function updateRGBCounts() {
     document.getElementById('rint').value = document.getElementById('redIntensity').value
@@ -56,11 +56,11 @@ let asCount = 0
 function autoScale() {
     if (asCount >= 150) { asCount = 0; return console.error('failed'); }
     asCount++
-    if (document.querySelector('#charcount').innerText <= 4250) {
+    if (document.querySelector('#charcount').innerText <= 4200) {
         document.getElementById('width').value++
         settings.width++
         loadNewImage(settings.last_source);
-    } else if (document.querySelector('#charcount').innerText >= 4450) {
+    } else if (document.querySelector('#charcount').innerText >= 4500) {
         document.getElementById('width').value--
         settings.width--
         loadNewImage(settings.last_source);
@@ -116,6 +116,7 @@ function initUI() {
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
 	setUIElement('#autocopy', settings.autocopy).onchange = (e) => {settings.autocopy = e.target.checked; r()};
+	setUIElement('#preview', settings.autocopy).onchange = (e) => {settings.preview = e.target.checked; settings.previewon = e.target.checked; loadNewImage(settings.last_source);  r()};
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
@@ -158,12 +159,15 @@ function initUI() {
 
 	
 	document.querySelector('#autoScale').onclick = (e) => {
-		if (!settings.canrun) return console.error('fail: canrun is not true.')
+		//if (!settings.canrun) return console.error('fail: canrun is not true.')
 		settings.canrun = false
 		if (document.querySelector('#charcount').innerText <= 4200 || document.querySelector('#charcount').innerText >= 4500) {
 			// base to estimate
-			settings.width = 20
-			document.getElementById('width').value = 20
+			if(document.querySelector('#charcount').innerText >= 6500) {
+			settings.width = 45
+			document.getElementById('width').value = 45
+			}
+			
 			loadNewImage(settings.last_source);
 			autoScale()
 		} 
@@ -201,7 +205,7 @@ function initUI() {
 }
 
 async function loadNewImage(src) {
-	
+
 	if(src === undefined) return;
 
 	if(settings.last_source && settings.last_source !== src) URL.revokeObjectURL(settings.last_source);
@@ -213,7 +217,7 @@ async function loadNewImage(src) {
 	//console.log(settings.last_canvas)
 	settings.last_dithering = null;
 	await parseCanvas(canvas);
-
+	
 }
 
 async function parseCanvas(canvas) {
@@ -228,6 +232,9 @@ async function parseCanvas(canvas) {
 	
 		}
 	}
+	if(settings.previewon == true && settings.canrun == true) {
+	initParser('text', 'output');
+	} 
 }
 
 window.onload = () => {
