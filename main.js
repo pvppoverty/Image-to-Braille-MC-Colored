@@ -119,7 +119,7 @@ function initUI() {
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
 	setUIElement('#autocopy', settings.autocopy).onchange = (e) => {settings.autocopy = e.target.checked; r()};
-	setUIElement('#preview', settings.autocopy).onchange = (e) => {settings.preview = e.target.checked; settings.previewon = e.target.checked; loadNewImage(settings.last_source);  r()};
+	setUIElement('#preview').onchange = (e) => {settings.preview = e.target.checked; settings.previewon = e.target.checked; loadNewImage(settings.last_source);r()};
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
@@ -218,6 +218,14 @@ function initUI() {
 	document.querySelector('#tAnim').onclick = (e) => {
 		anim();
 	}
+	document.querySelector('#ptog').onclick = (e) => {
+		if(document.getElementById('pic').hidden == true)
+		{document.getElementById('pic').hidden = false
+			} else{
+			document.getElementById('pic').hidden = true
+			logTags()
+		}
+	}
 }
 var animrun = true
 var breaker = false
@@ -245,8 +253,22 @@ async function anim(){
 	function timeout(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms))
 	}
-
-
+	 
+	  async function logTags() {
+		const response = await fetch("https://cataas.com/api/tags");
+		const tags = await response.json();
+		var rano = Math.floor(Math.random()*595)
+		refresher(tags[rano])
+		
+	  }
+	  function refresher(page) {
+		try{
+			
+		 document.getElementById('pic').src = "https://cataas.com/cat/" + page;
+		} catch(e){
+			
+		}
+	  }
 async function loadNewImage(src) {
 
 	if(src === undefined) return;
@@ -281,6 +303,7 @@ async function parseCanvas(canvas) {
 }
 
 window.onload = () => {
+
 	initUI();
 
 	settings.char = "█"

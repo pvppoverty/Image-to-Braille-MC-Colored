@@ -1,5 +1,5 @@
 body {
-	background: #333;
+	background: #000000;
 	color: #eee;
 	font-family:sans-serif;
 
@@ -24,6 +24,8 @@ body {
 	font-size: x-small;
 
 }
+
+
 #text {
 	display: block;
 	white-space: pre;
@@ -33,7 +35,7 @@ body {
 	margin: 0px;
 	resize: none;
 	flex: 1 1;
-
+	
 	background: black;
 	color: white;
 }
