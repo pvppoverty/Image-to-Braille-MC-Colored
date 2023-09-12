@@ -28,7 +28,8 @@ function createImageCanvas(src) {
 			ctx.mozImageSmoothingEnabled = false;
 			ctx.webkitImageSmoothingEnabled = false;
 			ctx.msImageSmoothingEnabled = false;
-			ctx.imageSmoothingEnabled = false;
+			ctx.imageSmoothingEnabled = settings.I4;
+			
 
 			ctx.drawImage(image, 0,0, canvas.width,canvas.height);
 			//console.log(canvas.height)

@@ -18,6 +18,7 @@ const settings = {
 	preview: false,
 	previewon: false,
 	thre: 128,
+	I4:false,
 }
 function updateRGBCounts() {
     document.getElementById('rint').value = document.getElementById('redIntensity').value
@@ -119,7 +120,8 @@ function initUI() {
 	setUIElement('#boxes', settings.boxes).onchange = (e) => {settings.boxes = e.target.checked; r()};
 	setUIElement('#minecraft', settings.minecraft).onchange = (e) => {settings.minecraft = e.target.checked; r()};
 	setUIElement('#autocopy', settings.autocopy).onchange = (e) => {settings.autocopy = e.target.checked; r()};
-	setUIElement('#preview').onchange = (e) => {settings.preview = e.target.checked; settings.previewon = e.target.checked; loadNewImage(settings.last_source);r()};
+	
+	setUIElement('#I4', settings.I4).onchange = (e) => {settings.I4 = e.target.checked;loadNewImage(settings.last_source); r()};
 	document.querySelector('#greyscale_mode').onchange = (e) => {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
@@ -226,6 +228,24 @@ function initUI() {
 			logTags()
 		}
 	}
+	document.querySelector('#pbra').onclick = (e) => {
+		//loadNewImage(URL.createObjectURL(e.target.files[0]));
+		//loadNewImage(document.getElementById('pic').src)
+		randomizer();
+	}
+	document.querySelector('#preview').onclick = (e) => {
+		if(settings.previewon == false){
+			settings.previewon = true
+			settings.preview = true
+			document.getElementById('output').hidden = false
+		}else{
+			settings.previewon = false
+			settings.preview = false
+			document.getElementById('output').hidden = true
+			document.getElementById('output').innerHTML =""
+		}
+		loadNewImage(settings.last_source);
+	}
 }
 var animrun = true
 var breaker = false
@@ -269,6 +289,9 @@ async function anim(){
 			
 		}
 	  }
+
+	  
+
 async function loadNewImage(src) {
 
 	if(src === undefined) return;
