@@ -14,6 +14,7 @@ const settings = {
 	autocopy: false,
 	canrun: true,
 	intensity_mode: "pow",
+	style_mode: "",
 	satt: 1,
 	preview: false,
 	previewon: false,
@@ -126,9 +127,13 @@ function initUI() {
 		settings.greyscale_mode = e.target.value;
 		parseCanvas(settings.last_canvas);
 	};
+	document.querySelector('#style').onchange = (e) => {
+		settings.style_mode = e.target.value;
+		console.log(settings.style_mode)
+		loadNewImage(settings.last_source);
+	};
 	document.querySelector('#intensitymode').onchange = (e) => {
 		settings.intensity_mode = e.target.value;
-		
 		loadNewImage(settings.last_source);
 	};
 

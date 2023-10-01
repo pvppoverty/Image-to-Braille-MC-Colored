@@ -10,7 +10,9 @@
 	<script src="previewer.js"></script>
    <script src="randomizer.js"></script>
 </head>
-<body id="body">
+<body id="body" style="
+font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+">
 	<div><img id="pic" src="https://cataas.com/c" hidden></div>
 	<textarea id="text" readonly></textarea>
 	<pre id="output" hidden></pre>
@@ -18,16 +20,17 @@
 		
 		<div><a href="https://github.com/pvppoverty/Image-to-Braille-MC-Colored" target="_blank">Open Repo</a></div>
 		
-		<div><input id="file" type="file" accept="image/*"> <button id="ptog">:3</button> <button id="pbra">?</button></div>
-		<div title="Toggle dark theme"><input type="checkbox" id="darktheme"> Dark</div>
+		<div><input id="file" type="file" accept="image/*" > <button id="ptog"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">:3</button> <button id="pbra"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">?</button></div>
+		<div title="Toggle dark theme" ><input type="checkbox" id="darktheme" style="content: none;"> Dark</div>
 		<div title="Invert black with white"><input type="checkbox" id="inverted"> Invert</div>
 		<div title="Monochrome dithering"><input type="checkbox" id="dithering"> Dithering</div>
 		<div title="Disable placeholder spacing"><input type="checkbox" id="monospace"> Monospace</div>
 		<div title="Enable Character"><input type="checkbox" id="boxes">
-		<input type="text" id="char" onpaste="pasted()" value="">Character</div>
+		<input type="text" id="char" onpaste="pasted()" value="" style="background-color: black; color: white; padding: 0px; width: 40px;">Character</div>
 		<div title="Enable Minecraft"><input type="checkbox" id="minecraft"> Minecraft</div>
+		<div title=""><input type="checkbox" id="I4"> Smoothing</div>
 		<div title="Greyscale Mode">
-			<select id="greyscale_mode">
+			<select id="greyscale_mode" style="border-radius: 10px; text-align: center; background-color: black; color:white">
 				<option value="luminance">Luminance</option>
 				<option value="lightness">Lightness</option>
 				<option value="average">Average</option>
@@ -35,19 +38,17 @@
 			</select>
 		</div>
 		<div>
-			<input type="number" min="2" value="50" step="2" max="500" id="width">
-			Width (characters)
-			<button id="autoScale">Auto-Scale</button><span>(unstable)</span>
-			
-		</div>
+			<select id="style" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<option value="">None</option>
+				<option value="&l">Bold</option>
+				<option value="&n">Underline</option>
+				<option value="&o">Italic</option>
+				<option value="&k">Obfuscated</option>
+				<option value="&m">Strikethrough</option>
+			</select></div>
 		<div>
-			<button id="clipboard">Copy to clipboard</button><input type="checkbox" id="autocopy"> AutoCopy | <button id="preview">Preview</button>
-			
-		</div>
-		
-		<div><span>Mode:</span>
-		<select id="intensitymode">
-			<option value="pow">Pow</option>
+		<select id="intensitymode" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+			<option value="pow" >Pow</option>
 			<option value="sqrt">Sqrt</option>
 			<option value="floor">Floor</option>
 			<option value="max">Max</option>
@@ -64,37 +65,49 @@
 			<option value="sin">Sin</option>
 		</select></div>
 		<div>
+		<div>
+			<input type="number" min="2" value="50" step="2" max="500" id="width" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+			Width (characters)
+			<button id="autoScale" style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Auto-Scale</button>
+			
+		</div>
+		<div>
+			<button id="clipboard" style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Copy to clipboard</button><input type="checkbox" id="autocopy" > AutoCopy | <button id="preview" style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Preview</button>
+			
+		</div>
+		
 			<span>Intensity:</span>
 			<div title="RedI.">
-				Red: <input type="number" min="-36" value="2" step="0.1" max="36" id="rint">
-				<input type="range" min="-36" max="36" value="2" step="0.1" id="redIntensity"><button id="rReset">Reset</button>
+				Red: <input type="number" min="-36" value="2" step="0.1" max="36" id="rint" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<input type="range" min="-36" max="36" value="2" step="0.1" id="redIntensity"><button id="rReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
 				
 			</div>
 			<div title="GreenI.">
-				Green: <input type="number" min="-36" value="2" step="0.1" max="36" id="gint">
-				<input type="range" min="-36" max="36" value="2" step="0.1" id="greenIntensity"><button id="gReset">Reset</button>
+				Green: <input type="number" min="-36" value="2" step="0.1" max="36" id="gint"style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<input type="range" min="-36" max="36" value="2" step="0.1" id="greenIntensity"><button id="gReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
 				
 			</div>
 			<div title="BlueI.">
-				Blue: <input type="number" min="-36" value="2" step="0.1" max="36" id="bint">
-				<input type="range" min="-36" max="36" value="2" step="0.1" id="blueIntensity"><button id="bReset">Reset</button>
+				Blue: <input type="number" min="-36" value="2" step="0.1" max="36" id="bint"style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<input type="range" min="-36" max="36" value="2" step="0.1" id="blueIntensity"><button id="bReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
 				
 			</div>
 			<div title="SaturationI.">
-				Saturation: <input type="number" min="-500" value="1" step="0.01" max="500" id="satt">
-				<input type="range" min="0" max="10" value="1" step="0.01" id="saturation"><button id="sReset">Reset</button>
+				Saturation: <input type="number" min="-500" value="1" step="0.01" max="500" id="satt" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<input type="range" min="0" max="10" value="1" step="0.01" id="saturation"><button id="sReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
 				
 			</div>
 			<div title="ThresholdI.">
-				Threshold: <input type="number" min="-0.1" value="128" step="1" max="255.1" id="thresh">
-				<input type="range" min="-0.1" max="255.1" value="128" step="1" id="threshold"><button id="tReset">Reset</button>
-				<button id="tAnim">:3</button>
+				Threshold: <input type="number" min="-0.1" value="128" step="1" max="255.1" id="thresh" style="border-radius: 10px; text-align: center; background-color: black; color:white">
+				<input type="range" min="-0.1" max="255.1" value="128" step="1" id="threshold"><button id="tReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
+				<button id="tAnim"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">:3</button>
 			</div>
 			Character Count: <span id="charcount">0</span>
 		</div>
 		
-		<div title=""><input type="checkbox" id="I4"> imageSmoothing</div>
-		<div><textarea readonly>Favorites:
+		
+
+		<div><textarea readonly style="background-color: rgb(53, 53, 53); color: white;">Favorites:
 ⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿⡀⡁⡂⡃⡄⡅⡆⡇⡈⡉⡊⡋⡌⡍⡎⡏⡐⡑⡒⡓⡔⡕⡖⡗⡘⡙⡚⡛⡜⡝⡞⡟⡠⡡⡢⡣⡤⡥⡦⡧⡨⡩⡪⡫⡬⡭⡮⡯⡰⡱⡲⡳⡴⡵⡶⡷⡸⡹⡺⡻⡼⡽⡾⡿⢀⢁⢂⢃⢄⢅⢆⢇⢈⢉⢊⢋⢌⢍⢎⢏⢐⢑⢒⢓⢔⢕⢖⢗⢘⢙⢚⢛⢜⢝⢞⢟⢠⢡⢢⢣⢤⢥⢦⢧⢨⢩⢪⢫⢬⢭⢮⢯⢰⢱⢲⢳⢴⢵⢶⢷⢸⢹⢺⢻⢼⢽⢾⢿⣀⣁⣂⣃⣄⣅⣆⣇⣈⣉⣊⣋⣌⣍⣎⣏⣐⣑⣒⣓⣔⣕⣖⣗⣘⣙⣚⣛⣜⣝⣞⣟⣠⣡⣢⣣⣤⣥⣦⣧⣨⣩⣪⣫⣬⣭⣮⣯⣰⣱⣲⣳⣴⣵⣶⣷⣸⣹⣺⣻⣼⣽⣾⣿
 ●╳◆◼█░▒▓
 

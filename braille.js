@@ -186,9 +186,6 @@ function canvasToText(canvas) {
 		case "sqrt":  
 		//intensitymode = Math.sqrt
 		intensitymode = Math.sqrt  //works: Math.random Math.cbrt Math.imul Math.expm1 Math.exp Math.atan2 Math.atan Math.log1p  Math.clz32 Math.sin
-
-
-
 		break;
 		case "floor": 
 			intensitymode = Math.floor
@@ -290,14 +287,14 @@ function canvasToText(canvas) {
 
             } else {
 				if(oldclr !== clr) {
-                output += clr + pixelsToCharacter(braille_info);
+                output += clr + settings.style_mode + pixelsToCharacter(braille_info);
 				} else {
 					output +=pixelsToCharacter(braille_info);
 				}
             }
 		} else {
 			if(oldclr !== clr){
-			output += clr + settings.char; //circle 0x25CF block 0x2588 X 0x2573
+			output += clr + settings.style_mode + settings.char; //circle 0x25CF block 0x2588 X 0x2573
 			} else {
 				output += settings.char; //circle 0x25CF block 0x2588 X 0x2573
 			}	
