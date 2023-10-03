@@ -20,6 +20,10 @@ const settings = {
 	previewon: false,
 	thre: 128,
 	I4:false,
+	sizeup:0,
+	sizedown:0,
+	sizeleft:0,
+	sizeright:0,
 }
 function updateRGBCounts() {
     document.getElementById('rint').value = document.getElementById('redIntensity').value
@@ -129,7 +133,7 @@ function initUI() {
 	};
 	document.querySelector('#style').onchange = (e) => {
 		settings.style_mode = e.target.value;
-		console.log(settings.style_mode)
+		
 		loadNewImage(settings.last_source);
 	};
 	document.querySelector('#intensitymode').onchange = (e) => {
@@ -249,6 +253,29 @@ function initUI() {
 			document.getElementById('output').hidden = true
 			document.getElementById('output').innerHTML =""
 		}
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#sizeup').onclick = (e) => {
+		settings.sizeup+=2;
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#sizedown').onclick = (e) => {
+		settings.sizedown-=2;
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#sizeright').onclick = (e) => {
+		settings.sizeright-=2;
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#sizeleft').onclick = (e) => {
+		settings.sizeleft+=2;
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#sizereset').onclick = (e) => {
+		settings.sizeleft=0;
+		settings.sizeup=0;
+		settings.sizedown=0;
+		settings.sizeright=0;
 		loadNewImage(settings.last_source);
 	}
 }

@@ -25,6 +25,20 @@ font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ox
 		<div title="Invert black with white"><input type="checkbox" id="inverted"> Invert</div>
 		<div title="Monochrome dithering"><input type="checkbox" id="dithering"> Dithering</div>
 		<div title="Disable placeholder spacing"><input type="checkbox" id="monospace"> Monospace</div>
+		<menu style="background-color: rgb(27, 27, 27);width: 55px;height: 90px;position: absolute;border-radius: 10px;right:60px;top:150px">
+			<div style="bottom: 90px;position: absolute;text-align: center;right: 26px;font-weight: 600;">Resize</div>
+			<div class="grid">
+				<div class="item"></div>
+			<div class="item"><button id="sizeup"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white;font-size: 12px;padding:5px;padding-bottom:2px">🞁</button></div>
+				<div class="item"></div>
+			<div class="item"><button id="sizeleft"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white;font-size: 12px;padding:5px;padding-right:8px;margin-right:3px">🞀</button></div>
+			<div class="item"><button id="sizereset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white;font-size: 12px;padding:5px;">↺</button></div>
+			<div class="item"><button id="sizeright"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white;font-size: 12px;padding:5px;padding-left:8px;margin-left:3px">🞂</button></div>
+			<div class="item"></div>
+			<div class="item"><button id="sizedown"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white;font-size: 12px;padding:5px;padding-top:2px">🞃</button></div>
+			<div class="item"></div>
+		</div>
+		</menu>
 		<div title="Enable Character"><input type="checkbox" id="boxes">
 		<input type="text" id="char" onpaste="pasted()" value="" style="background-color: black; color: white; padding: 0px; width: 40px;">Character</div>
 		<div title="Enable Minecraft"><input type="checkbox" id="minecraft"> Minecraft</div>
@@ -101,6 +115,7 @@ font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ox
 				Threshold: <input type="number" min="-0.1" value="128" step="1" max="255.1" id="thresh" style="border-radius: 10px; text-align: center; background-color: black; color:white">
 				<input type="range" min="-0.1" max="255.1" value="128" step="1" id="threshold"><button id="tReset"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">Reset</button>
 				<button id="tAnim"style="border-style:ridge;border-radius: 10px; text-align: center; background-color: black; color:white">:3</button>
+
 			</div>
 			Character Count: <span id="charcount">0</span>
 		</div>

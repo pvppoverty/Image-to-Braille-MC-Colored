@@ -19,12 +19,13 @@ function createImageCanvas(src) {
 			//nearest multiple
 			canvas.width = width - (width % 2);
 			canvas.height = height - (height % 4);
-			
-
+			canvas.height-=settings.sizeup
+			canvas.height-=settings.sizedown
+			canvas.width-=settings.sizeleft
+			canvas.width-=settings.sizeright
 			ctx = canvas.getContext("2d");
 			ctx.fillStyle = "#FFFFFF"; //get rid of alpha
 			ctx.fillRect(0,0, canvas.width,canvas.height);
-
 			ctx.mozImageSmoothingEnabled = false;
 			ctx.webkitImageSmoothingEnabled = false;
 			ctx.msImageSmoothingEnabled = false;
@@ -42,6 +43,7 @@ function createImageCanvas(src) {
 		image.src = src;
 	});
 }
+
 
 
 
