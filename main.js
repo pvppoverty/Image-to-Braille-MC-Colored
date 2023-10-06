@@ -278,6 +278,10 @@ function initUI() {
 		settings.sizeright=0;
 		loadNewImage(settings.last_source);
 	}
+	
+	document.querySelector('#bbg').onclick = (e) => {
+		(document.getElementById('bbgframe').hidden==false)?document.getElementById('bbgframe').hidden=true:document.getElementById('bbgframe').hidden=false;
+	}
 }
 var animrun = true
 var breaker = false
