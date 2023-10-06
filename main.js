@@ -282,6 +282,25 @@ function initUI() {
 	document.querySelector('#bbg').onclick = (e) => {
 		(document.getElementById('bbgframe').hidden==false)?document.getElementById('bbgframe').hidden=true:document.getElementById('bbgframe').hidden=false;
 	}
+	let textfontsize=10;	
+	document.querySelector('#minus').onclick = (e) => {
+		textfontsize-=1;
+		document.getElementById('text').style.fontSize=textfontsize+"pt"
+		
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#fontreset').onclick = (e) => {
+		textfontsize=10;
+		document.getElementById('text').style.fontSize="13px"
+		
+		loadNewImage(settings.last_source);
+	}
+	document.querySelector('#plus').onclick = (e) => {
+		textfontsize+=1;
+		document.getElementById('text').style.fontSize=textfontsize+"pt"
+		
+		loadNewImage(settings.last_source);
+	}
 }
 var animrun = true
 var breaker = false
